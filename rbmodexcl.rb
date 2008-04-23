@@ -15,12 +15,12 @@ class Object
             if (p == mod || RCLASS(p)->m_tbl == RCLASS(mod)->m_tbl) {
                 RCLASS(prev)->super = RCLASS(p)->super;
                 rb_clear_cache();
-                return Qtrue;
+                return self;
             }
             prev = p;
             p = RCLASS(p)->super;
         }
-        return Qfalse;
+        return self;
       }
     }
   end
