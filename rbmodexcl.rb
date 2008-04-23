@@ -4,7 +4,7 @@ require 'inline'
 class Object
   inline(:C) do |builder|
     builder.c %{
-      VALUE exclude(VALUE mod) 
+      VALUE unextend(VALUE mod) 
       {
         VALUE p, prev;
         Check_Type(mod, T_MODULE);
