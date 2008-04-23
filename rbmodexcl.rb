@@ -8,7 +8,9 @@ class Object
       {
         VALUE p, prev;
         Check_Type(mod, T_MODULE);
-        
+        if (mod == rb_mKernel) 
+          rb_raise(rb_eArgError, "unextending Kernel is prohibited");
+      	
         p = (TYPE(self) == T_CLASS) ? self : rb_singleton_class(self);
         
         while (p) {
