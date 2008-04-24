@@ -28,3 +28,32 @@ class Object
   end
 
 end
+
+class Class
+  
+  inline(:C) do |builder|
+    builder.c %{
+      VALUE uninclude(VALUE mod) 
+      {
+        VALUE p, prev;
+        Check_Type(mod, T_MODULE);
+        if (mod == rb_mKernel) 
+          rb_raise(rb_eArgError, "unincluding Kernel is prohibited");
+
+        p = self;
+        
+        while (p) {
+            if (p == mod || RCLASS(p)->m_tbl == RCLASS(mod)->m_tbl) {
+                RCLASS(prev)->super = RCLASS(p)->super;
+                rb_clear_cache();
+                return self;
+            }
+            prev = p;
+            p = RCLASS(p)->super;
+        }
+        return self;
+      }
+    }
+  end
+
+end
