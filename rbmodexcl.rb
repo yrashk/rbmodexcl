@@ -25,6 +25,9 @@ class Object
       	_self = self;
         p = (TYPE(self) == T_CLASS) ? self : rb_singleton_class(self);
         
+        if (p == self) 
+          printf("heyho");
+        
         while (p) {
             if (p == mod || RCLASS(p)->m_tbl == RCLASS(mod)->m_tbl) {
                 RCLASS(prev)->super = RCLASS(p)->super;
