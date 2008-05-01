@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../rbmodexcl'
 
-
-
 describe Class, "extended with module" do
   
   before(:each) do
