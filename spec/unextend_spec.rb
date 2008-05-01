@@ -19,6 +19,11 @@ describe Class, "extended with module" do
     @klass.should_not respond_to(:modded?)
   end
   
+  it "should call Module.unextended on #unextend" do
+    @module.should_receive(:unextended).with(@klass)
+    @klass.unextend(@module)
+  end
+  
 end
 
 
