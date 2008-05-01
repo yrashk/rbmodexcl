@@ -16,13 +16,12 @@ class Object
     builder.c %{
       VALUE unextend(VALUE mod) 
       {
-        VALUE p, prev, _self;
+        VALUE p, prev;
         Check_Type(mod, T_MODULE);
         if (mod == rb_mKernel) 
           rb_raise(rb_eArgError, "unextending Kernel is prohibited");
       	
       	
-      	_self = self;
         p = (TYPE(self) == T_CLASS) ? self : rb_singleton_class(self);
         
         if (p == self) 
@@ -32,7 +31,7 @@ class Object
             if (p == mod || RCLASS(p)->m_tbl == RCLASS(mod)->m_tbl) {
                 RCLASS(prev)->super = RCLASS(p)->super;
                 rb_clear_cache();
-                rb_funcall(mod, rb_intern("unextended"), 1, _self);
+                rb_funcall(mod, rb_intern("unextended"), 1, self);
                 return self;
             }
             prev = p;
@@ -61,18 +60,18 @@ class Class
     builder.c %{  
       VALUE uninclude(VALUE mod) 
       {
-        VALUE p, prev, _self;
+        VALUE p, prev;
         Check_Type(mod, T_MODULE);
         if (mod == rb_mKernel) 
           rb_raise(rb_eArgError, "unincluding Kernel is prohibited");
 
-        p = _self = self;
+        p = self;
         
         while (p) {
             if (p == mod || RCLASS(p)->m_tbl == RCLASS(mod)->m_tbl) {
                 RCLASS(prev)->super = RCLASS(p)->super;
                 rb_clear_cache();
-                rb_funcall(mod, rb_intern("unincluded"), 1, _self);
+                rb_funcall(mod, rb_intern("unincluded"), 1, self);
                 return self;
             }
             prev = p;
